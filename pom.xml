@@ -16,7 +16,7 @@
     </parent>
 
     <artifactId>tapis-shared-java</artifactId>
-    <version>2.0.187-SNAPSHOT</version>
+    <version>2.0.188-SNAPSHOT</version>
 
     <name>Tapis shared</name>
     <description>TAPIS shared Java code</description>
