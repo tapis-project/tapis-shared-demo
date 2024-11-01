@@ -28,6 +28,10 @@ public final class TapisThreadContext
     private String oboTenantId = INVALID_ID;    // on-behalf-of tenant id
     private String oboUser = INVALID_ID;        // on-behalf-of user
     
+    // These header are null if not supplied by caller.
+    private String trackingId;
+    private String parentTrackingId;
+    
     // This service's site.
     private String siteId;
     
@@ -142,4 +146,18 @@ public final class TapisThreadContext
     {
       this.searchParameters = searchParameters;
     }
+
+	public String getTrackingId() {
+		return trackingId;
+	}
+	public void setTrackingId(String trackingId) {
+		this.trackingId = trackingId;
+	}
+
+	public String getParentTrackingId() {
+		return parentTrackingId;
+	}
+	public void setParentTrackingId(String parentTrackingId) {
+		this.parentTrackingId = parentTrackingId;
+	}
 }

@@ -87,10 +87,14 @@ public class JWTValidateRequestFilter
     // Tracing.
     private static final Logger _log = LoggerFactory.getLogger(JWTValidateRequestFilter.class);
     
-    // Header key for jwts.
+    // Header keys for jwts.
     private static final String TAPIS_JWT_HEADER     = "X-Tapis-Token";
     private static final String TAPIS_USER_HEADER    = "X-Tapis-User";
     private static final String TAPIS_HASH_HEADER    = "X-Tapis-User-Token-Hash";
+    
+    // Header keys for audit record tracking.
+    private static final String TAPIS_TRACKING_HEADER        = "X-Tapis-Tracking-Id";
+    private static final String TAPIS_PARENT_TRACKING_HEADER = "X-Tapis-Parent-Tracking-Id";
     
     // Tapis claim keys.
     private static final String CLAIM_TENANT         = "tapis/tenant_id";
@@ -371,6 +375,10 @@ public class JWTValidateRequestFilter
         String oboTenantId = headers.getFirst(TAPIS_TENANT_HEADER);
         String oboUser     = headers.getFirst(TAPIS_USER_HEADER);
         
+        // These headers can be added by any caller for auditing purposes.
+        String trackingId = headers.getFirst(TAPIS_TRACKING_HEADER);
+        String parentTrackingId = headers.getFirst(TAPIS_PARENT_TRACKING_HEADER);
+        
         // ------------------------ Validate Site Services ---------------------
         if (accountType == AccountType.service) {
             // The X-Tapis-User header is mandatory when a service jwt is used.
@@ -450,14 +458,16 @@ public class JWTValidateRequestFilter
         // ------------------------ Assign Effective Values --------------------
         // Assign pertinent claims and header values to our threadlocal context.
         TapisThreadContext threadContext = TapisThreadLocal.tapisThreadContext.get();
-        threadContext.setJwtTenantId(jwtTenant);           // from jwt claim, never null
-        threadContext.setJwtUser(jwtUser);                 // from jwt claim, never null
-        threadContext.setOboTenantId(oboTenantId);         // from jwt or header, never null
-        threadContext.setOboUser(oboUser);                 // from jwt or header, never null
-        threadContext.setAccountType(accountType);         // from jwt, never null
-        threadContext.setDelegatorSubject(delegator);      // from jwt, can be null
-        threadContext.setUserJwtHash(headerUserTokenHash); // from header, can be null
-        threadContext.setSiteId(_siteId);                  // statically initialized
+        threadContext.setJwtTenantId(jwtTenant);             // from jwt claim, never null
+        threadContext.setJwtUser(jwtUser);                   // from jwt claim, never null
+        threadContext.setOboTenantId(oboTenantId);           // from jwt or header, never null
+        threadContext.setOboUser(oboUser);                   // from jwt or header, never null
+        threadContext.setAccountType(accountType);           // from jwt, never null
+        threadContext.setDelegatorSubject(delegator);        // from jwt, can be null
+        threadContext.setUserJwtHash(headerUserTokenHash);   // from header, can be null
+        threadContext.setTrackingId(trackingId);              // from header, can be null
+        threadContext.setParentTrackingId(parentTrackingId);  // from header, can be null
+        threadContext.setSiteId(_siteId);                    // statically initialized
 
         // Inject the user and JWT into the security context and request context
         AuthenticatedUser requestUser = 
