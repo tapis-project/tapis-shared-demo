@@ -88,24 +88,23 @@ public class JWTValidateRequestFilter
     private static final Logger _log = LoggerFactory.getLogger(JWTValidateRequestFilter.class);
     
     // Header keys for jwts.
-    private static final String TAPIS_JWT_HEADER     = "X-Tapis-Token";
-    private static final String TAPIS_USER_HEADER    = "X-Tapis-User";
-    private static final String TAPIS_HASH_HEADER    = "X-Tapis-User-Token-Hash";
+    private static final String TAPIS_JWT_HEADER      = "X-Tapis-Token";
+    private static final String TAPIS_USER_HEADER     = "X-Tapis-User";
+    private static final String TAPIS_HASH_HEADER     = "X-Tapis-User-Token-Hash";
     
     // Header keys for audit record tracking.
-    private static final String TAPIS_TRACKING_HEADER        = "X-Tapis-Tracking-Id";
-    private static final String TAPIS_PARENT_TRACKING_HEADER = "X-Tapis-Parent-Tracking-Id";
+    private static final String TAPIS_TRACKING_HEADER = "X-Tapis-Tracking-Id";
     
     // Tapis claim keys.
-    private static final String CLAIM_TENANT         = "tapis/tenant_id";
-    private static final String TAPIS_TENANT_HEADER  = "X-Tapis-Tenant";
-
-	private static final String CLAIM_USERNAME       = "tapis/username";
-    private static final String CLAIM_TOKEN_TYPE     = "tapis/token_type";
-    private static final String CLAIM_ACCOUNT_TYPE   = "tapis/account_type";
-    private static final String CLAIM_DELEGATION     = "tapis/delegation";
-    private static final String CLAIM_DELEGATION_SUB = "tapis/delegation_sub";
-    private static final String CLAIM_SITE           = "tapis/target_site";
+    private static final String CLAIM_TENANT          = "tapis/tenant_id";
+    private static final String TAPIS_TENANT_HEADER   = "X-Tapis-Tenant";
+ 
+	private static final String CLAIM_USERNAME        = "tapis/username";
+    private static final String CLAIM_TOKEN_TYPE      = "tapis/token_type";
+    private static final String CLAIM_ACCOUNT_TYPE    = "tapis/account_type";
+    private static final String CLAIM_DELEGATION      = "tapis/delegation";
+    private static final String CLAIM_DELEGATION_SUB  = "tapis/delegation_sub";
+    private static final String CLAIM_SITE            = "tapis/target_site";
 
     // Default message when logging claims for an expired jwt
     private static final String DEFAULT_CLAIMS_MSG = "<no claims found>";
@@ -377,7 +376,6 @@ public class JWTValidateRequestFilter
         
         // These headers can be added by any caller for auditing purposes.
         String trackingId = headers.getFirst(TAPIS_TRACKING_HEADER);
-        String parentTrackingId = headers.getFirst(TAPIS_PARENT_TRACKING_HEADER);
         
         // ------------------------ Validate Site Services ---------------------
         if (accountType == AccountType.service) {
@@ -465,8 +463,7 @@ public class JWTValidateRequestFilter
         threadContext.setAccountType(accountType);           // from jwt, never null
         threadContext.setDelegatorSubject(delegator);        // from jwt, can be null
         threadContext.setUserJwtHash(headerUserTokenHash);   // from header, can be null
-        threadContext.setTrackingId(trackingId);              // from header, can be null
-        threadContext.setParentTrackingId(parentTrackingId);  // from header, can be null
+        threadContext.setTrackingId(trackingId);             // from header, can be null
         threadContext.setSiteId(_siteId);                    // statically initialized
 
         // Inject the user and JWT into the security context and request context
