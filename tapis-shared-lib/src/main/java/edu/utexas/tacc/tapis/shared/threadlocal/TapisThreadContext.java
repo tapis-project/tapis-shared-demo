@@ -30,7 +30,6 @@ public final class TapisThreadContext
     
     // These header are null if not supplied by caller.
     private String trackingId;
-    private String parentTrackingId;
     
     // This service's site.
     private String siteId;
@@ -152,12 +151,5 @@ public final class TapisThreadContext
 	}
 	public void setTrackingId(String trackingId) {
 		this.trackingId = trackingId;
-	}
-
-	public String getParentTrackingId() {
-		return parentTrackingId;
-	}
-	public void setParentTrackingId(String parentTrackingId) {
-		this.parentTrackingId = parentTrackingId;
 	}
 }

@@ -2,6 +2,8 @@ package edu.utexas.tacc.tapis.shared.utils;
 
 import com.google.gson.Gson;
 
+import edu.utexas.tacc.tapis.shared.TapisConstants;
+
 /** This file contains utility methods that assist in writing and managing audit logs.
  * 
  * @author rcardone
@@ -21,10 +23,17 @@ public final class AuditUtils
     public static final String AUDIT_JOBSAPI = "jobsapi";
     public static final String AUDIT_JOBSWORKER = "jobsworker";
     
+    // -------- Tracking ID prefixes.
+    public static final String TRACKING_PREFIX_JOB_UUID = "job_uuid.";
+    public static final String TRACKING_PREFIX_FILES = "files.";
+    
     // -------- Auditable action names.
     public enum AUDIT_ACTIONS {
     	// Audit actions with their display names that get logged. 
-    	FILES_MKDIR("files-mkdir");
+    	FILES_MKDIR("files-mkdir"),
+    	FILES_TRANSFER("file-transfer"),
+    	SCP_WRITE("scp-write");
+    	
     	
     	// Fields, constructor and methods.
     	private String _displayName;
@@ -156,7 +165,7 @@ public final class AuditUtils
 		if (a.sourcePath == null) a.sourcePath = AUDIT_NULL;
 		if (a.trackingId == null) a.trackingId = AUDIT_NULL;
 		if (a.parentTrackingId == null) a.parentTrackingId = AUDIT_NULL;
-		if (a.data == null) a.data = AUDIT_NULL;
+		if (a.data == null) a.data = TapisConstants.EMPTY_JSON;
 
 		// Return a json string.
 		return _gson.toJson(a);
