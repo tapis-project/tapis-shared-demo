@@ -16,7 +16,7 @@
     </parent>
 
     <artifactId>tapis-shared-java</artifactId>
-    <version>2.0.188</version>
+    <version>2.0.189-SNAPSHOT</version>
 
     <name>Tapis shared</name>
     <description>TAPIS shared Java code</description>
@@ -25,7 +25,7 @@
     <scm>
         <connection>scm:git:git@github.com:tapis-project/tapis-shared-java.git</connection>
         <url>https://github.com/tapis-project/tapis-shared-java</url>
-        <tag>tapis-shared-java-2.0.188</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
