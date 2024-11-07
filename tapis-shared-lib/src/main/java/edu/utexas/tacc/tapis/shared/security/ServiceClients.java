@@ -297,7 +297,7 @@ public class ServiceClients
     private ITapisClient loadClient(String key) 
      throws RuntimeException, TapisException
     {
-        // Split the key into its 3 parts.
+        // Split the key into its 4 parts.
         String[] parts = _keyPattern.split(key);
         String user       = parts[0];
         String tenant     = parts[1];

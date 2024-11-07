@@ -17,7 +17,7 @@ public final class AuditUtils
 	private static final Gson _gson = TapisGsonUtils.getGson();
 
 	// Audit null indicator.
-	public static final String AUDIT_NULL = "?";
+	public static final String AUDIT_EMPTY = "";
 	
 	// -------- Service component names.
     public static final String AUDIT_JOBSAPI = "jobsapi";
@@ -149,22 +149,22 @@ public final class AuditUtils
 	public static String auditMsg(AuditData a)
 	{
 		// Prevent null from entering the database.
-		if (a.component == null) a.component = AUDIT_NULL;
-		if (a.jwtTenant == null) a.jwtTenant = AUDIT_NULL;
-		if (a.jwtUser == null) a.jwtUser = AUDIT_NULL;
-		if (a.oboTenant == null) a.oboTenant = AUDIT_NULL;
-		if (a.oboUser == null) a.oboUser = AUDIT_NULL;
-		if (a.action == null) a.action = AUDIT_NULL;
-		if (a.targetSystemId == null) a.targetSystemId = AUDIT_NULL;
-		if (a.targetSystemType == null) a.targetSystemType = AUDIT_NULL;
-		if (a.targetHost == null) a.targetHost = AUDIT_NULL;
-		if (a.targetPath == null) a.targetPath = AUDIT_NULL;
-		if (a.sourceSystemId == null) a.sourceSystemId = AUDIT_NULL;
-		if (a.sourceSystemType == null) a.sourceSystemType = AUDIT_NULL;
-		if (a.sourceHost == null) a.sourceHost = AUDIT_NULL;
-		if (a.sourcePath == null) a.sourcePath = AUDIT_NULL;
-		if (a.trackingId == null) a.trackingId = AUDIT_NULL;
-		if (a.parentTrackingId == null) a.parentTrackingId = AUDIT_NULL;
+		if (a.component == null) a.component = AUDIT_EMPTY;
+		if (a.jwtTenant == null) a.jwtTenant = AUDIT_EMPTY;
+		if (a.jwtUser == null) a.jwtUser = AUDIT_EMPTY;
+		if (a.oboTenant == null) a.oboTenant = AUDIT_EMPTY;
+		if (a.oboUser == null) a.oboUser = AUDIT_EMPTY;
+		if (a.action == null) a.action = AUDIT_EMPTY;
+		if (a.targetSystemId == null) a.targetSystemId = AUDIT_EMPTY;
+		if (a.targetSystemType == null) a.targetSystemType = AUDIT_EMPTY;
+		if (a.targetHost == null) a.targetHost = AUDIT_EMPTY;
+		if (a.targetPath == null) a.targetPath = AUDIT_EMPTY;
+		if (a.sourceSystemId == null) a.sourceSystemId = AUDIT_EMPTY;
+		if (a.sourceSystemType == null) a.sourceSystemType = AUDIT_EMPTY;
+		if (a.sourceHost == null) a.sourceHost = AUDIT_EMPTY;
+		if (a.sourcePath == null) a.sourcePath = AUDIT_EMPTY;
+		if (a.trackingId == null) a.trackingId = AUDIT_EMPTY;
+		if (a.parentTrackingId == null) a.parentTrackingId = AUDIT_EMPTY;
 		if (a.data == null) a.data = TapisConstants.EMPTY_JSON;
 
 		// Return a json string.
