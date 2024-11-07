@@ -65,6 +65,9 @@ public class ServiceClients
 	// Cache constraints.
 	private static final int MAX_CLIENTS = 150;
 	private static final int MAX_MINUTES = 10;
+	
+	// Indicator when no audit tracking ID is present.
+	public static final String NOT_TRACKING = "NotTracking";
 
     /* ********************************************************************** */
 	/*                                Fields                                  */
@@ -135,6 +138,29 @@ public class ServiceClients
 	public <T> T getClient(String user, String tenant, Class<T> cls) 
 	 throws RuntimeException, TapisException, ExecutionException
 	{
+		return getClient(user, tenant, NOT_TRACKING, cls);
+	}
+	
+	/* ---------------------------------------------------------------------- */
+	/* getClient:                                                             */
+	/* ---------------------------------------------------------------------- */
+	/** Return a typed service client instance.  The client class input parameter
+	 * determines the return type.  Only client classes that have been mapped
+	 * to service names will be recognized.
+	 * 
+	 * @param <T> the service's client class type 
+	 * @param tenant the tenant of the service
+	 * @param user the user on behalf of whom the service is being called
+	 * @param cls the service's client class type
+	 * @return the target service's strongly-typed client
+	 * @throws RuntimeException
+	 * @throws TapisException
+	 * @throws ExecutionException 
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T getClient(String user, String tenant, String trackingId, Class<T> cls) 
+	 throws RuntimeException, TapisException, ExecutionException
+	{
 		// Map the client class to its service name.
 		String serviceName = _class2ServiceMap.get(cls);
 		if (serviceName == null)
@@ -142,7 +168,7 @@ public class ServiceClients
 					                                 cls.getSimpleName()));
 		
 		// Return the typed client.
-		return (T) getClient(user, tenant, serviceName);
+		return (T) getClient(user, tenant, trackingId, serviceName);
 	}
 	
 	/* ---------------------------------------------------------------------- */
@@ -160,7 +186,7 @@ public class ServiceClients
 	 * @throws TapisException
 	 * @throws ExecutionException 
 	 */
-	public ITapisClient getClient(String user, String tenant, String service) 
+	public ITapisClient getClient(String user, String tenant, String trackingId, String service) 
      throws RuntimeException, TapisException, ExecutionException
 	{
 	    // Guard against bogus input.
@@ -168,6 +194,8 @@ public class ServiceClients
             throw new TapisException(MsgUtils.getMsg("TAPIS_NULL_PARAMETER", "getClient", "user"));
         if (StringUtils.isBlank(tenant))
             throw new TapisException(MsgUtils.getMsg("TAPIS_NULL_PARAMETER", "getClient", "tenant"));
+        if (StringUtils.isBlank(trackingId))
+            throw new TapisException(MsgUtils.getMsg("TAPIS_NULL_PARAMETER", "getClient", "trackingId"));
         if (StringUtils.isBlank(service))
             throw new TapisException(MsgUtils.getMsg("TAPIS_NULL_PARAMETER", "getClient", "service"));
 	    
@@ -176,7 +204,7 @@ public class ServiceClients
         if (ServiceContext.getInstance().hasRefreshedTokens()) _clientCache.invalidateAll();
         
 		// See if we already have the client.
-		String key = getCacheKey(user, tenant, service);
+		String key = getCacheKey(user, tenant, trackingId, service);
 		return _clientCache.get(key);
 	}
 	
@@ -203,11 +231,11 @@ public class ServiceClients
 	 * @param tenant the client's tenant
 	 * @param service the client's target service name
 	 */
-	public void removeClient(String user, String tenant, String service)
+	public void removeClient(String user, String tenant, String trackingId, String service)
 	{
 		// Attempt to remove the client.  No attempt is made
 		// to free any resources controlled by the client.
-		String key = getCacheKey(user, tenant, service);
+		String key = getCacheKey(user, tenant, trackingId, service);
 		_clientCache.invalidate(key);
 	}
 	
@@ -225,8 +253,8 @@ public class ServiceClients
 	/* ---------------------------------------------------------------------- */
 	/* getCacheKey:                                                           */
 	/* ---------------------------------------------------------------------- */
-	private String getCacheKey(String user, String tenant, String service)
-	{return user + SEP + tenant + SEP + service;}
+	private String getCacheKey(String user, String tenant, String trackingId, String service)
+	{return user + SEP + tenant + SEP + service + SEP + trackingId;}
 	
     /* ---------------------------------------------------------------------- */
     /* initCache:                                                             */
@@ -271,9 +299,10 @@ public class ServiceClients
     {
         // Split the key into its 3 parts.
         String[] parts = _keyPattern.split(key);
-        String user    = parts[0];
-        String tenant  = parts[1];
-        String service = parts[2];
+        String user       = parts[0];
+        String tenant     = parts[1];
+        String service    = parts[2];
+        String trackingId = parts[3];
         
         // Create a new client for this service/tenant combination.
         var router = ServiceContext.getInstance().getRouter(tenant, service);
@@ -348,6 +377,11 @@ public class ServiceClients
         client.addDefaultHeader("X-Tapis-User", user);
         client.addDefaultHeader("X-Tapis-Tenant", tenant);
         client.addDefaultHeader("Content-Type", "application/json");
+        
+        // Add the optional tracking ID only on clients that do tracking
+        // and only when an actual tracking ID is present. 
+        if (!trackingId.equals(NOT_TRACKING) && (client instanceof FilesClient))
+        	client.addDefaultHeader("X-Tapis-Tracking-ID", trackingId);
         
         // Return the client.
         return client;
