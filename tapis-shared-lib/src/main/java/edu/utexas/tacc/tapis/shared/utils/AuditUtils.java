@@ -31,7 +31,7 @@ public final class AuditUtils
     public enum AUDIT_ACTIONS {
     	// Audit actions with their display names that get logged. 
     	FILES_MKDIR("files-mkdir"),
-    	FILES_TRANSFER("file-transfer"),
+    	FILES_TRANSFER("files-transfer"),
     	SCP_WRITE("scp-write");
     	
     	
