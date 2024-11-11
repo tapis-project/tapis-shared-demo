@@ -24,20 +24,20 @@ public final class AuditUtils
     public static final String AUDIT_JOBSWORKER = "jobsworker";
     
     // -------- Tracking ID prefixes.
-    public static final String TRACKING_PREFIX_JOB_UUID = "job_uuid.";
-    public static final String TRACKING_PREFIX_FILES = "files.";
+    public static final String TRACKING_PREFIX_FILES = "files."; 
+    public static final String TRACKING_PREFIX_JOB_UUID = "jobs.";
+    public static final String TRACKING_PREFIX_PORTALS_UUID = "portals.";
     
     // -------- Auditable action names.
-    public enum AUDIT_ACTIONS {
+    public enum AUDIT_ACTION {
     	// Audit actions with their display names that get logged. 
-    	FILES_MKDIR("files-mkdir"),
-    	FILES_TRANSFER("files-transfer"),
-    	SCP_WRITE("scp-write");
-    	
+    	ACTION_MKDIR("mkdir"),
+    	ACTION_TRANSFER("transfer"),
+    	ACTION_SCP_COPY("scp-copy");
     	
     	// Fields, constructor and methods.
     	private String _displayName;
-    	AUDIT_ACTIONS(String displaName){_displayName = displaName;}
+    	AUDIT_ACTION(String displaName){_displayName = displaName;}
     	@Override
     	public String toString() {return _displayName;}
     }

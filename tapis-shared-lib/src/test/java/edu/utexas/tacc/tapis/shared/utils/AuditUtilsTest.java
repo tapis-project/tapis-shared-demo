@@ -16,7 +16,7 @@ public class AuditUtilsTest
 	{
 		var auditData = new AuditData();
 		auditData.component = AuditUtils.AUDIT_JOBSWORKER;
-		auditData.action = AuditUtils.AUDIT_ACTIONS.FILES_MKDIR.toString();
+		auditData.action = AuditUtils.AUDIT_ACTION.ACTION_MKDIR.toString();
 		auditData.trackingId = "f36073ff-acec-4f7b-9fbd-957dbe77f233-007";
 
     	auditData.targetSystemId = "system1";
