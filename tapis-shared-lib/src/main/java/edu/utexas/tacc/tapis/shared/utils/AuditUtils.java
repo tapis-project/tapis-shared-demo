@@ -16,12 +16,17 @@ public final class AuditUtils
 	// Reuse the gson object.
 	private static final Gson _gson = TapisGsonUtils.getGson();
 
+	// Audit logger name
+	public static final String LOGGER_NAME = "audit";
+
 	// Audit null indicator.
 	public static final String AUDIT_EMPTY = "";
 	
 	// -------- Service component names.
     public static final String AUDIT_JOBSAPI = "jobsapi";
     public static final String AUDIT_JOBSWORKER = "jobsworker";
+    public static final String AUDIT_FILESAPI = "filesapi";
+    public static final String AUDIT_FILESWORKER = "filesworker";
     
     // -------- Tracking ID prefixes.
     public static final String TRACKING_PREFIX_FILES = "files."; 
@@ -30,7 +35,17 @@ public final class AuditUtils
     
     // -------- Auditable action names.
     public enum AUDIT_ACTION {
-    	// Audit actions with their display names that get logged. 
+    	// Audit actions with their display names that get logged.
+	// Note that some of these do not begin with ACTION_ so we may easily convert between this type and types in tapis-files.
+    	LINUXOP("linuxop"), // Might be used if new Linux operation is introduced and this shared code has not been updated.
+	ACTION_CHGRP("chgrp"),
+	ACTION_CHMOD("chmod"),
+	ACTION_CHOWN("chown"),
+    	ACTION_COPY("copy"),
+    	ACTION_DELETE("delete"),
+    	ACTION_MOVE("move"),
+    	ACTION_SETFACL("setfacl"),
+    	ACTION_UPLOAD("upload"),
     	ACTION_MKDIR("mkdir"),
     	ACTION_TRANSFER("transfer"),
     	ACTION_SCP_COPY("scp-copy");
