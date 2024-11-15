@@ -29,8 +29,8 @@ public final class AuditUtils
     public static final String AUDIT_FILESWORKER = "filesworker";
     
     // -------- Tracking ID prefixes.
-    public static final String TRACKING_PREFIX_FILES = "files."; 
     public static final String TRACKING_PREFIX_JOB_UUID = "jobs.";
+    public static final String TRACKING_PREFIX_FILES = "files."; 
     public static final String TRACKING_PREFIX_PORTALS_UUID = "portals.";
     
     // -------- Auditable action names.
@@ -38,17 +38,17 @@ public final class AuditUtils
     	// Audit actions with their display names that get logged.
 	// Note that some of these do not begin with ACTION_ so we may easily convert between this type and types in tapis-files.
     	LINUXOP("linuxop"), // Might be used if new Linux operation is introduced and this shared code has not been updated.
-	ACTION_CHGRP("chgrp"),
-	ACTION_CHMOD("chmod"),
-	ACTION_CHOWN("chown"),
-    	ACTION_COPY("copy"),
-    	ACTION_DELETE("delete"),
-    	ACTION_MOVE("move"),
-    	ACTION_SETFACL("setfacl"),
-    	ACTION_UPLOAD("upload"),
-    	ACTION_MKDIR("mkdir"),
-    	ACTION_TRANSFER("transfer"),
-    	ACTION_SCP_COPY("scp-copy");
+        ACTION_CHGRP("chgrp"),
+        ACTION_CHMOD("chmod"),
+        ACTION_CHOWN("chown"),
+        ACTION_COPY("copy"),
+        ACTION_DELETE("delete"),
+        ACTION_MOVE("move"),
+        ACTION_SETFACL("setfacl"),
+        ACTION_UPLOAD("upload"),
+        ACTION_MKDIR("mkdir"),
+        ACTION_TRANSFER("transfer"),
+        ACTION_SCP_COPY("scp-copy");
     	
     	// Fields, constructor and methods.
     	private String _displayName;
