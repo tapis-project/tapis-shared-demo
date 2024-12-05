@@ -70,7 +70,7 @@ public class SSHConnection
         // Configure apache ssh logging by interfacing directly with logback.
         var sshLogger =
            (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("org.apache.sshd");
-        if (sshLogger != null) sshLogger.setLevel(ch.qos.logback.classic.Level.ERROR);
+        if (sshLogger != null) sshLogger.setLevel(ch.qos.logback.classic.Level.TRACE);//ERROR); TODO
     }
     
     /* ********************************************************************** */
@@ -373,8 +373,12 @@ public class SSHConnection
         if (_authMethod == AuthMethod.PASSWORD_AUTH) 
             _session.addPasswordIdentity(_password);
           else {
+              // Initialize data for the key loader
               var keyLoader = new SSHKeyLoader(_publicKey, _privateKey, _username, _host);
+              // Convert the incoming key pair into a java.security KeyPair
+              // This routine attempts to detect the key type and encryption algorithm
               KeyPair keyPair = keyLoader.getKeyPair();
+              // Add converted credentials to the session
               _session.addPublicKeyIdentity(keyPair);
           }
             
