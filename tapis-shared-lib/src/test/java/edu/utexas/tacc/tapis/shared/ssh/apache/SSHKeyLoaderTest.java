@@ -115,7 +115,7 @@ public class SSHKeyLoaderTest
   @Test(groups={"unit"})
   public void testTmsEd25519() throws Exception
   {
-    runKeyTest("tms_ed25519.pub", "tms_ed25519", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
+    runKeyTest("tms_ed25519.pub", "tms_ed25519", ALG_ED25519, ALG_ED25519, FORMAT_X509, FORMAT_PKCS8);
   }
 
 //  /*

@@ -15,16 +15,15 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.jcajce.spec.OpenSSHPrivateKeySpec;
 import org.bouncycastle.jcajce.spec.OpenSSHPublicKeySpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.util.io.pem.PemObject;
+import org.bouncycastle.util.io.pem.PemReader;
 
 import edu.utexas.tacc.tapis.shared.exceptions.TapisSecurityException;
 import edu.utexas.tacc.tapis.shared.i18n.MsgUtils;
-import org.bouncycastle.util.io.pem.PemObject;
-import org.bouncycastle.util.io.pem.PemReader;
 
 /** The purpose of this class is to taken raw key data from file or memory and
  * convert it to key objects used by the SSH subsystem.
@@ -41,28 +40,7 @@ import org.bouncycastle.util.io.pem.PemReader;
  *         PEM -       https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail
  * Read RSA Pkcs1 in Java - https://stackoverflow.com/questions/3243018/how-to-load-rsa-private-key-from-file
  *
- * // TODO
- * // TODO  From search on "java crypto ssh library ed25519 example"
- * // TODO  https://stackoverflow.com/questions/77460283/encoding-a-ed25519-public-key-to-ssh-format-in-java
- * // // TODO or maybe https://stackoverflow.com/questions/78279858/ssh-ed25519-string-to-public-key-in-java
- *
- * // OpenSSH private keys created on recent linux versions using ssh-keygen -t rsa -b 4096 begin with:
- * //    -----BEGIN OPENSSH PRIVATE KEY-----
- * //    b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAACFwAAAAdzc2gtcn
- * // OpenSSH private keys created on recent linux versions using ssh-keygen -t ed25519 begin with:
- * //    -----BEGIN OPENSSH PRIVATE KEY-----
- * //    b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
- * // OpenSSH private keys created on recent linux versions using ssh-keygen -t rsa -b 4096 -m pem begin with:
- * //    -----BEGIN RSA PRIVATE KEY-----
- * //    MIIJJwIBAAKCAgEAve9MgxjOm+QUgklmenSahsVKdkAQA0MiD2oXODVU/AEGspNf
- * // OpenSSH private keys created on recent linux versions using ssh-keygen -t ed25519 -m PEM begin with: (no change with PEM)
- * //    -----BEGIN OPENSSH PRIVATE KEY-----
- * //    b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
- * // TODO Use Bouncy Castle methods to read in keys and convert to format required by java libraries.
- * //      See, e.g. https://downloads.bouncycastle.org/java/docs/bcprov-jdk15to18-javadoc/org/bouncycastle/jcajce/spec/OpenSSHPrivateKeySpec.html
- *
- * // TODO TODO REPLACE above examples with pointers to test files under resources, but keep here the linux command run to generate the keypair files.
- * // Example key pairs may be find in tapis-shared-java/tapis-shared-lib/src/test/resources/edu/utexas/tacc/tapis/shared/ssh/apache
+ * Example key pairs may be find in tapis-shared-java/tapis-shared-lib/src/test/resources/edu/utexas/tacc/tapis/shared/ssh/apache
  *  -------------------                                         ----------------    ----------
  *  Linux Command / TMS                                         Private key file    Header
  *  -------------------                                         ----------------    ----------
@@ -84,12 +62,6 @@ import org.bouncycastle.util.io.pem.PemReader;
  *    https://stackoverflow.com/questions/77413281/extract-public-key-from-privatekeyinfo-with-bouncy-castle
  *
  * @author rcardone
- *
- * TODO NOTES:
- *   The provided private key must be in unencrypted PEM format starting with one of these headers
- *   "-----BEGIN RSA PRIVATE KEY-----" (RSA PKCS#1)
- *   "-----BEGIN PRIVATE KEY-----" (RSA PKCS#8)
- *   "-----BEGIN OPENSSH PRIVATE KEY-----" (OpenSSH PKCS#8)
  *
  */
 public class SSHKeyLoader 
