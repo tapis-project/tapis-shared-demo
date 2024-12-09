@@ -25,7 +25,7 @@ import org.bouncycastle.util.io.pem.PemReader;
 import edu.utexas.tacc.tapis.shared.exceptions.TapisSecurityException;
 import edu.utexas.tacc.tapis.shared.i18n.MsgUtils;
 
-/** The purpose of this class is to taken raw key data from file or memory and
+/** The purpose of this class is to take raw key data from file or memory and
  * convert it to key objects used by the SSH subsystem.
  * 
  * Some of the code used by this class concerning PEM file parsing is based on code
@@ -121,6 +121,17 @@ public class SSHKeyLoader
     /* ---------------------------------------------------------------------- */
     public KeyPair getKeyPair() throws TapisSecurityException
     {
+        // TODO remove - test code
+        // TODO - for unit test to pass had to use addProvider to add BC. But when debugging via call Systems it was
+        //        finding another spi when generation private. Probably need to always add this provider somewhere, but where?
+        Security.addProvider(new BouncyCastleProvider());
+        KeyFactory kf;
+        try {
+            var provider = Security.getProvider("BC");
+            kf = KeyFactory.getInstance("RSA", "BC");
+            kf = KeyFactory.getInstance("EdDSA", "BC");
+        } catch (Exception e) { /* TODO REMOVE */}
+
         // Get keypair using code specific to format as determined by private key header.
         String privateKeyDataString = _privateKey;
         if (privateKeyDataString.startsWith(PKCS_1_PEM_RSA_HEADER)) return getRSAPKCS1KeyPair();

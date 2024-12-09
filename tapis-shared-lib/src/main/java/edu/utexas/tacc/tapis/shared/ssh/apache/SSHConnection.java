@@ -61,7 +61,7 @@ public class SSHConnection
     private static final int    THROTTLE_LIMIT   = 8; // Max connects in window
     private static final int    CONNECT_DELAY_MS    = 4000; // Mininum delay
     private static final int    CONNECT_MAX_SKEW_MS = 8000; // Added skew maximum
-    
+
     /* ********************************************************************** */
     /*                            Initializers                                */
     /* ********************************************************************** */
@@ -70,7 +70,7 @@ public class SSHConnection
         // Configure apache ssh logging by interfacing directly with logback.
         var sshLogger =
            (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("org.apache.sshd");
-        if (sshLogger != null) sshLogger.setLevel(ch.qos.logback.classic.Level.TRACE);//ERROR); TODO
+        if (sshLogger != null) sshLogger.setLevel(ch.qos.logback.classic.Level.WARN);//.TRACE);//ERROR); TODO
     }
     
     /* ********************************************************************** */
@@ -111,7 +111,10 @@ public class SSHConnection
     /* ---------------------------------------------------------------------- */
     /* constructor:                                                           */
     /* ---------------------------------------------------------------------- */
-    public SSHConnection(String host, int port, String username, String password) 
+    /*
+     *  Establish a password authenticated client+session with default timeouts
+     */
+    public SSHConnection(String host, int port, String username, String password)
      throws TapisException 
     {
         this(host, port, username, password, new SSHTimeouts());
@@ -121,7 +124,7 @@ public class SSHConnection
     /* constructor:                                                           */
     /* ---------------------------------------------------------------------- */
     /**
-     *  Establish a password authenticated client+session
+     *  Establish a password authenticated client+session with given timeouts
      * 
      * @param host
      * @param port

@@ -21,7 +21,7 @@ import static edu.utexas.tacc.tapis.shared.ssh.apache.SSHKeyLoader.ALG_RSA;
 
 /**
  * Tests for methods in KeyLoader class.
- * Test loading of various keypairs from files.
+ * Test loading of various key-pairs from files.
  * Tests load the public and private keys from files and use them to create a java public-private KeyPair
  */
 public class SSHKeyLoaderTest
@@ -44,7 +44,7 @@ public class SSHKeyLoaderTest
   @Test(groups={"unit"})
   public void testSshKeygenRSAKeyLegacy() throws Exception
   {
-    runKeyTest("sshkeygen_rsa_pem.pub", "sshkeygen_rsa_pem", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
+    runKeyTest("sshkeygen_rsa_pem", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
   }
 
   /*
@@ -53,7 +53,7 @@ public class SSHKeyLoaderTest
   @Test(groups={"unit"})
   public void testSshKeygenRSAKeyOpenSSH() throws Exception
   {
-    runKeyTest("sshkeygen_rsa.pub", "sshkeygen_rsa", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
+    runKeyTest("sshkeygen_rsa", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
   }
 
   /*
@@ -62,7 +62,7 @@ public class SSHKeyLoaderTest
   @Test(groups={"unit"})
   public void testSshKeygenEd25519() throws Exception
   {
-    runKeyTest("sshkeygen_ed25519.pub", "sshkeygen_ed25519", ALG_ED25519, ALG_ED25519, FORMAT_X509, FORMAT_PKCS8);
+    runKeyTest("sshkeygen_ed25519", ALG_ED25519, ALG_ED25519, FORMAT_X509, FORMAT_PKCS8);
   }
 
 //  /*
@@ -72,7 +72,7 @@ public class SSHKeyLoaderTest
 //  public void testSshKeygenEcdsa() throws Exception
 //  {
 //    Assert.fail("WIP");
-//    runKeyTest("sshkeygen_ecdsa.pub", "sshkeygen_ecdsa", ALG_EC, ALG_EC, FORMAT_X509, FORMAT_PKCS8);
+//    runKeyTest("sshkeygen_ecdsa", ALG_EC, ALG_EC, FORMAT_X509, FORMAT_PKCS8);
 //  }
 //
 //  /* ----------------------------------------------------------------------------------- */
@@ -84,7 +84,7 @@ public class SSHKeyLoaderTest
 //  @Test(groups={"unit"})
 //  public void testOpenSslRSAKey() throws Exception
 //  {
-//    runKeyTest("openssl_rsa.pub", "openssl_rsa", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
+//    runKeyTest("openssl_rsa", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
 //  }
 //
 //  /*
@@ -93,7 +93,7 @@ public class SSHKeyLoaderTest
 //  @Test(groups={"unit"})
 //  public void testOpenSslECKey() throws Exception
 //  {
-//    runKeyTest("openssl_ec.pub", "openssl_ec", ALG_EC, ALG_EC, FORMAT_X509, FORMAT_PKCS8);
+//    runKeyTest("openssl_ec", ALG_EC, ALG_EC, FORMAT_X509, FORMAT_PKCS8);
 //  }
 //
 
@@ -106,7 +106,7 @@ public class SSHKeyLoaderTest
   @Test(groups={"unit"})
   public void testTmsRSA() throws Exception
   {
-    runKeyTest("tms_rsa.pub", "tms_rsa", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
+    runKeyTest("tms_rsa", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
   }
 
   /*
@@ -115,7 +115,7 @@ public class SSHKeyLoaderTest
   @Test(groups={"unit"})
   public void testTmsEd25519() throws Exception
   {
-    runKeyTest("tms_ed25519.pub", "tms_ed25519", ALG_ED25519, ALG_ED25519, FORMAT_X509, FORMAT_PKCS8);
+    runKeyTest("tms_ed25519", ALG_ED25519, ALG_ED25519, FORMAT_X509, FORMAT_PKCS8);
   }
 
 //  /*
@@ -134,9 +134,10 @@ public class SSHKeyLoaderTest
   /*
    * Each test very similar, just need the file names, expected key algorithms and formats
    */
-  private void runKeyTest(String pubFile, String prvFile, String pubAlg, String prvAlg, String pubFormat, String prvFormat)
+  private void runKeyTest(String prvFile, String pubAlg, String prvAlg, String pubFormat, String prvFormat)
           throws Exception
   {
+    String pubFile = String.format("%s.pub", prvFile);
     String pubKeyStr = readKeyFromFile(pubFile);
     String prvKeyStr = readKeyFromFile(prvFile);
     // Initialize data for the key loader
