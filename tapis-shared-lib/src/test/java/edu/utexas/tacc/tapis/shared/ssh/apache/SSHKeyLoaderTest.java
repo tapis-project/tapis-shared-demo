@@ -12,7 +12,6 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import static edu.utexas.tacc.tapis.shared.ssh.apache.SSHKeyLoader.ALG_EC;
-import static edu.utexas.tacc.tapis.shared.ssh.apache.SSHKeyLoader.ALG_ED25519;
 import static edu.utexas.tacc.tapis.shared.ssh.apache.SSHKeyLoader.ALG_EDDSA;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -66,37 +65,36 @@ public class SSHKeyLoaderTest
     runKeyTest("sshkeygen_ed25519", ALG_EDDSA, ALG_EDDSA, FORMAT_X509, FORMAT_PKCS8);
   }
 
-//  /*
-//   * Test ssh-keygen ECDSA keypair where private key begins with -----BEGIN OPENSSH PRIVATE KEY-----
-//   */
-//  @Test(groups={"unit"})
-//  public void testSshKeygenEcdsa() throws Exception
-//  {
-//    Assert.fail("WIP");
-//    runKeyTest("sshkeygen_ecdsa", ALG_EC, ALG_EC, FORMAT_X509, FORMAT_PKCS8);
-//  }
-//
-//  /* ----------------------------------------------------------------------------------- */
-//  /* Test keys generated using openssl                                                   */
-//  /* ----------------------------------------------------------------------------------- */
-//  /*
-//   * Test openssl RSA keypair where private key begins with -----BEGIN PRIVATE KEY-----
-//   */
-//  @Test(groups={"unit"})
-//  public void testOpenSslRSAKey() throws Exception
-//  {
-//    runKeyTest("openssl_rsa", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
-//  }
-//
-//  /*
-//   * Test openssl EC keypair where private key begins with -----BEGIN EC PRIVATE KEY-----
-//   */
-//  @Test(groups={"unit"})
-//  public void testOpenSslECKey() throws Exception
-//  {
-//    runKeyTest("openssl_ec", ALG_EC, ALG_EC, FORMAT_X509, FORMAT_PKCS8);
-//  }
-//
+  /*
+   * Test ssh-keygen ECDSA keypair where private key begins with -----BEGIN OPENSSH PRIVATE KEY-----
+   */
+  @Test(groups={"unit"})
+  public void testSshKeygenEcdsa() throws Exception
+  {
+    runKeyTest("sshkeygen_ecdsa", ALG_EC, ALG_EC, FORMAT_X509, FORMAT_PKCS8);
+  }
+
+  /* ----------------------------------------------------------------------------------- */
+  /* Test keys generated using openssl                                                   */
+  /* ----------------------------------------------------------------------------------- */
+  /*
+   * Test openssl RSA keypair where private key begins with -----BEGIN PRIVATE KEY-----
+   */
+  @Test(groups={"unit"})
+  public void testOpenSslRSAKey() throws Exception
+  {
+    runKeyTest("openssl_rsa", ALG_RSA, ALG_RSA, FORMAT_X509, FORMAT_PKCS8);
+  }
+
+  /*
+   * Test openssl EC keypair where private key begins with -----BEGIN EC PRIVATE KEY-----
+   */
+  @Test(groups={"unit"})
+  public void testOpenSslECKey() throws Exception
+  {
+    runKeyTest("openssl_ec", ALG_EC, ALG_EC, FORMAT_X509, FORMAT_PKCS8);
+  }
+
 
   /* ----------------------------------------------------------------------------------- */
   /* Test keys generated using Trusted Management System (TMS)                           */
@@ -119,14 +117,14 @@ public class SSHKeyLoaderTest
     runKeyTest("tms_ed25519", ALG_EDDSA, ALG_EDDSA, FORMAT_X509, FORMAT_PKCS8);
   }
 
-//  /*
-//   * Test TMS EDCSA keypair where private key begins with -----BEGIN OPENSSH PRIVATE KEY-----
-//   */
-//  @Test(groups={"unit"})
-//  public void testTmsEdcsa() throws Exception
-//  {
-//    Assert.fail("WIP");
-//  }
+  /*
+   * Test TMS EDCSA keypair where private key begins with -----BEGIN OPENSSH PRIVATE KEY-----
+   */
+  @Test(groups={"unit"})
+  public void testTmsEdcsa() throws Exception
+  {
+    runKeyTest("tms_ecdsa", ALG_EC, ALG_EC, FORMAT_X509, FORMAT_PKCS8);
+  }
 
   // ************************************************************************
   // **************************  Private Methods  ***************************

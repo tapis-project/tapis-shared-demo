@@ -130,23 +130,6 @@
             <artifactId>eddsa</artifactId>
         </dependency>
 
-        <!-- Crypto utilities from BouncyCastle for reading ssh keys -->
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk18on</artifactId>
-            <version>${org.bouncycastle.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk18on</artifactId>
-            <version>${org.bouncycastle.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcutil-jdk18on</artifactId>
-            <version>${org.bouncycastle.version}</version>
-        </dependency>
-
         <!-- For S3 support -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>

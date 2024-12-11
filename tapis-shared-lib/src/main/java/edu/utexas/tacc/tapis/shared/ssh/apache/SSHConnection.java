@@ -18,8 +18,6 @@ import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.config.keys.loader.KeyPairResourceLoader;
 import org.apache.sshd.common.signature.BuiltinSignatures;
 import org.apache.sshd.common.util.security.SecurityUtils;
-import org.apache.sshd.common.util.security.bouncycastle.BouncyCastleSecurityProviderRegistrar;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,14 +78,6 @@ public class SSHConnection
            (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("org.apache.sshd");
         if (sshLogger != null) sshLogger.setLevel(ch.qos.logback.classic.Level.WARN);//.TRACE);//ERROR); TODO
     }
-
-    // We will use BouncyCastle for the ssh-key processing, so make sure we register the provider.
-    static {
-        var bcr = new BouncyCastleSecurityProviderRegistrar();
-        var bc = new BouncyCastleProvider();
-        Security.addProvider(new BouncyCastleProvider());
-    }
-
 
     /* ********************************************************************** */
     /*                                 Enums                                  */
