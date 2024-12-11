@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.utexas.tacc.tapis</groupId>
   <artifactId>tapis-shared-searchlib</artifactId>
-  <version>2.0.192</version>
+  <version>2.0.193</version>
   <name>Tapis Search Facility</name>
   <description>Tapis search library</description>
   <url>https://github.com/tapis-project/tapis-shared-java/tapis-shared-searchlib</url>
@@ -149,12 +149,12 @@
     <activemq-client.version>5.18.3</activemq-client.version>
     <jackson.version>2.14.0</jackson.version>
     <json-org.version>20231013</json-org.version>
-    <maven-compiler-plugin-release>17</maven-compiler-plugin-release>
+    <maven-compiler-plugin-release>21</maven-compiler-plugin-release>
     <jakarta.el.version>3.0.3</jakarta.el.version>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
     <flywaydb.version>9.22.3</flywaydb.version>
-    <java-target.version>1.17</java-target.version>
+    <java-target.version>1.21</java-target.version>
     <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
     <google-findbugs.version>3.0.2</google-findbugs.version>
     <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
@@ -173,7 +173,7 @@
     <javax.validation.version>2.0.1.Final</javax.validation.version>
     <amqp-client.version>5.20.0</amqp-client.version>
     <eddsa.version>0.3.0</eddsa.version>
-    <timestamp>1731688372213</timestamp>
+    <timestamp>1733956686862</timestamp>
     <metrics-core.version>4.2.23</metrics-core.version>
     <threetenbp.version>1.3.5</threetenbp.version>
     <snakeyaml.version>2.2</snakeyaml.version>
@@ -182,7 +182,7 @@
     <swagger-jaxrs2.version>2.1.13</swagger-jaxrs2.version>
     <commons-exec.version>1.4.0</commons-exec.version>
     <commons-math3.version>3.6.1</commons-math3.version>
-    <buildNumber>36f92f3c</buildNumber>
+    <buildNumber>ce1c4714</buildNumber>
     <software.amazon.awssdk.version>2.17.295</software.amazon.awssdk.version>
     <testng.version>7.7.1</testng.version>
     <commons-lang3.version>3.14.0</commons-lang3.version>
@@ -207,11 +207,11 @@
     <tapis-client-java.version>[2.0.135,3.0)</tapis-client-java.version>
     <javax.xml.bind.jaxb-core.version>2.3.0.1</javax.xml.bind.jaxb-core.version>
     <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
-    <apache-sshd.version>2.11.0</apache-sshd.version>
+    <apache-sshd.version>2.14.0</apache-sshd.version>
     <javax.websocket-api.version>1.1</javax.websocket-api.version>
-    <build.timestamp>2024-11-15T16:32:34Z</build.timestamp>
+    <build.timestamp>2024-12-11T22:37:47Z</build.timestamp>
     <statefulj.version>3.0</statefulj.version>
-    <java-source.version>1.17</java-source.version>
+    <java-source.version>1.21</java-source.version>
     <swagger-maven-plugin.version>2.1.13</swagger-maven-plugin.version>
     <javax.xml.bind.jaxb-impl.version>2.3.2</javax.xml.bind.jaxb-impl.version>
     <javax.el-api.version>3.0.1-b06</javax.el-api.version>
@@ -422,79 +422,79 @@
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>apps-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>auth-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>files-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>globusproxy-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>jobs-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>meta-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>notifications-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>security-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>shared-clientlib</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>systems-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>tapis-shared-lib</artifactId>
-      <version>2.0.192</version>
+      <version>2.0.193</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>tenants-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>edu.utexas.tacc.tapis</groupId>
       <artifactId>tokens-client</artifactId>
-      <version>2.0.137</version>
+      <version>2.0.138</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -692,25 +692,25 @@
     <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-common</artifactId>
-      <version>2.11.0</version>
+      <version>2.14.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-core</artifactId>
-      <version>2.11.0</version>
+      <version>2.14.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-scp</artifactId>
-      <version>2.11.0</version>
+      <version>2.14.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-sftp</artifactId>
-      <version>2.11.0</version>
+      <version>2.14.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -824,7 +824,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
-      <version>1.7.32</version>
+      <version>1.7.36</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

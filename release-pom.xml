@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.utexas.tacc.tapis</groupId>
   <artifactId>tapis-shared-java</artifactId>
-  <version>2.0.192</version>
+  <version>2.0.193</version>
   <packaging>pom</packaging>
   <name>Tapis shared</name>
   <description>TAPIS shared Java code</description>
@@ -157,12 +157,12 @@
     <activemq-client.version>5.18.3</activemq-client.version>
     <jackson.version>2.14.0</jackson.version>
     <json-org.version>20231013</json-org.version>
-    <maven-compiler-plugin-release>17</maven-compiler-plugin-release>
+    <maven-compiler-plugin-release>21</maven-compiler-plugin-release>
     <jakarta.el.version>3.0.3</jakarta.el.version>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
     <flywaydb.version>9.22.3</flywaydb.version>
-    <java-target.version>1.17</java-target.version>
+    <java-target.version>1.21</java-target.version>
     <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
     <google-findbugs.version>3.0.2</google-findbugs.version>
     <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
@@ -213,11 +213,11 @@
     <tapis-client-java.version>[2.0.135,3.0)</tapis-client-java.version>
     <javax.xml.bind.jaxb-core.version>2.3.0.1</javax.xml.bind.jaxb-core.version>
     <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
-    <apache-sshd.version>2.11.0</apache-sshd.version>
+    <apache-sshd.version>2.14.0</apache-sshd.version>
     <javax.websocket-api.version>1.1</javax.websocket-api.version>
-    <build.timestamp>2024-11-15T16:32:34Z</build.timestamp>
+    <build.timestamp>2024-12-11T22:37:47Z</build.timestamp>
     <statefulj.version>3.0</statefulj.version>
-    <java-source.version>1.17</java-source.version>
+    <java-source.version>1.21</java-source.version>
     <swagger-maven-plugin.version>2.1.13</swagger-maven-plugin.version>
     <javax.xml.bind.jaxb-impl.version>2.3.2</javax.xml.bind.jaxb-impl.version>
     <javax.el-api.version>3.0.1-b06</javax.el-api.version>
@@ -388,7 +388,7 @@
       </testResource>
     </testResources>
     <directory>target</directory>
-    <finalName>tapis-shared-java-2.0.192</finalName>
+    <finalName>tapis-shared-java-2.0.193</finalName>
     <plugins>
       <plugin>
         <groupId>com.amashchenko.maven.plugin</groupId>
