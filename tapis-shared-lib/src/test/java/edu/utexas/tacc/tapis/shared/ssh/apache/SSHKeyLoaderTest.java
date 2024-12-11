@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import static edu.utexas.tacc.tapis.shared.ssh.apache.SSHKeyLoader.ALG_EC;
 import static edu.utexas.tacc.tapis.shared.ssh.apache.SSHKeyLoader.ALG_ED25519;
+import static edu.utexas.tacc.tapis.shared.ssh.apache.SSHKeyLoader.ALG_EDDSA;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static edu.utexas.tacc.tapis.shared.ssh.apache.SSHKeyLoader.FORMAT_PKCS8;
@@ -62,7 +63,7 @@ public class SSHKeyLoaderTest
   @Test(groups={"unit"})
   public void testSshKeygenEd25519() throws Exception
   {
-    runKeyTest("sshkeygen_ed25519", ALG_ED25519, ALG_ED25519, FORMAT_X509, FORMAT_PKCS8);
+    runKeyTest("sshkeygen_ed25519", ALG_EDDSA, ALG_EDDSA, FORMAT_X509, FORMAT_PKCS8);
   }
 
 //  /*
@@ -115,7 +116,7 @@ public class SSHKeyLoaderTest
   @Test(groups={"unit"})
   public void testTmsEd25519() throws Exception
   {
-    runKeyTest("tms_ed25519", ALG_ED25519, ALG_ED25519, FORMAT_X509, FORMAT_PKCS8);
+    runKeyTest("tms_ed25519", ALG_EDDSA, ALG_EDDSA, FORMAT_X509, FORMAT_PKCS8);
   }
 
 //  /*

@@ -1,6 +1,10 @@
 package edu.utexas.tacc.tapis.shared.ssh.apache;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.StringReader;
+import java.nio.file.Path;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
@@ -15,7 +19,11 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+import java.util.Collection;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sshd.common.config.keys.loader.KeyPairResourceLoader;
+import org.apache.sshd.common.util.security.SecurityUtils;
 import org.bouncycastle.jcajce.spec.OpenSSHPrivateKeySpec;
 import org.bouncycastle.jcajce.spec.OpenSSHPublicKeySpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -73,6 +81,7 @@ public class SSHKeyLoader
     // ssh-keygen.  This class only supports the openssl formats.
     public static final String ALG_RSA = "RSA";
     public static final String ALG_ED25519 = "Ed25519";
+    public static final String ALG_EDDSA = "EdDSA";
     public static final String ALG_EC = "EC";
     private static final String KEYFACTORY_ALG_DEFAULT = ALG_RSA;
     private static final String PKCS_1_PEM_RSA_HEADER = "-----BEGIN RSA PRIVATE KEY-----";
@@ -121,30 +130,64 @@ public class SSHKeyLoader
     /* ---------------------------------------------------------------------- */
     public KeyPair getKeyPair() throws TapisSecurityException
     {
-        // TODO remove - test code
-        // TODO - for unit test to pass had to use addProvider to add BC. But when debugging via call Systems it was
-        //        finding another spi when generation private. Probably need to always add this provider somewhere, but where?
-        Security.addProvider(new BouncyCastleProvider());
-        KeyFactory kf;
-        try {
-            var provider = Security.getProvider("BC");
-            kf = KeyFactory.getInstance("RSA", "BC");
-            kf = KeyFactory.getInstance("EdDSA", "BC");
-        } catch (Exception e) { /* TODO REMOVE */}
+// TODO            // TODO
+//        // Write private key to temp file
+//        File tmpFile = null;
+//        try { tmpFile = File.createTempFile("junk", ".tmp"); } catch (Exception e) {}
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tmpFile))) {
+//            String pvtKey = replaceAllCRLF(_privateKey, "\n");
+//            writer.write(pvtKey);
+//            writer.close();
+//        // Load key using Apache mina ssh library
+//            KeyPairResourceLoader loader = SecurityUtils.getKeyPairResourceParser();
+////            try {
+////                var fp = Path.of("/home/scblack/src_git/github/dev/tapis-shared-java/tapis-shared-lib/src/test/resources/edu/utexas/tacc/tapis/shared/ssh/apache/sshkeygen_ed25519");
+//                var fp = Path.of(tmpFile.getAbsolutePath());
+//                Collection<KeyPair> keyPairs = loader.loadKeyPairs(null, fp, null);
+//                var i = 1;
+//                tmpFile.delete();
+//                var kpa = keyPairs.toArray();
+//                return (KeyPair) kpa[0];
+//        } catch (Exception e) {}
+        // Load key using Apache mina ssh library
+        KeyPairResourceLoader loader = SecurityUtils.getKeyPairResourceParser();
+        String privateKeyStr = replaceAllCRLF(_privateKey, "\n");
+        Collection<KeyPair> keyPairs;
+        try
+        {
+            keyPairs = loader.loadKeyPairs(null, null, null, privateKeyStr);
+        }
+        catch (Exception e) { throw new TapisSecurityException(e.getMessage(), e); }
 
-        // Get keypair using code specific to format as determined by private key header.
-        String privateKeyDataString = _privateKey;
-        if (privateKeyDataString.startsWith(PKCS_1_PEM_RSA_HEADER)) return getRSAPKCS1KeyPair();
-        else if (privateKeyDataString.startsWith(OPENSSH_PEM_HEADER)) return getOpenSSHKeyPair();
-////        else if (privateKeyDataString.startsWith(PKCS_8_PEM_RSA_HEADER)) return getRSAPKCS8KeyPair();
-////        else if (privateKeyDataString.startsWith(PKCS_8_PEM_EC_HEADER)) return getOpenSslECKeyPair();
-        throw new IllegalArgumentException("ERROR: Key format not supported. First 24 characters from key: " + privateKeyDataString.substring(0, 24));
-//        var prvKey = getPrivateKey();
-//        var pubKey = getPublicKey(prvKey);
+        var kpa = keyPairs.toArray();
+        var kp = (KeyPair) kpa[0];
+        return kp;
+ // TODO
+
+//        // TODO remove - test code
+//        // TODO - for unit test to pass had to use addProvider to add BC. But when debugging via call Systems it was
+//        //        finding another spi when generation private. Probably need to always add this provider somewhere, but where?
+//// TODO        Security.addProvider(new BouncyCastleProvider());
+//        KeyFactory kf;
+//        try {
+//            var provider = Security.getProvider("BC");
+//            kf = KeyFactory.getInstance("RSA", "BC");
+//            kf = KeyFactory.getInstance("EdDSA", "BC");
+//        } catch (Exception e) { /* TODO REMOVE */}
 //
-//        // Assign key pair.
-//        KeyPair keyPair = new KeyPair(pubKey, prvKey);
-//        return keyPair;
+//        // Get keypair using code specific to format as determined by private key header.
+//        String privateKeyDataString = _privateKey;
+//        if (privateKeyDataString.startsWith(PKCS_1_PEM_RSA_HEADER)) return getRSAPKCS1KeyPair();
+//        else if (privateKeyDataString.startsWith(OPENSSH_PEM_HEADER)) return getOpenSSHKeyPair();
+//////        else if (privateKeyDataString.startsWith(PKCS_8_PEM_RSA_HEADER)) return getRSAPKCS8KeyPair();
+//////        else if (privateKeyDataString.startsWith(PKCS_8_PEM_EC_HEADER)) return getOpenSslECKeyPair();
+//        throw new IllegalArgumentException("ERROR: Key format not supported. First 24 characters from key: " + privateKeyDataString.substring(0, 24));
+////        var prvKey = getPrivateKey();
+////        var pubKey = getPublicKey(prvKey);
+////
+////        // Assign key pair.
+////        KeyPair keyPair = new KeyPair(pubKey, prvKey);
+////        return keyPair;
     }
     public KeyPair getKeyPair_legacy()
       throws TapisSecurityException
