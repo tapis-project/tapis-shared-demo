@@ -9,6 +9,7 @@
 .releaseBackup
 
 # Generated files
+release-pom.xml
 openapi.json
 openapi.yaml
 

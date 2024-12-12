@@ -2,22 +2,17 @@ package edu.utexas.tacc.tapis.shared.ssh.apache;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.security.KeyPair;
-import java.security.Security;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.concurrent.ThreadLocalRandom;
 
+import ch.qos.logback.classic.Level;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.SshException;
-import org.apache.sshd.common.config.keys.loader.KeyPairResourceLoader;
-import org.apache.sshd.common.signature.BuiltinSignatures;
-import org.apache.sshd.common.util.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +71,8 @@ public class SSHConnection
         // Configure apache ssh logging by interfacing directly with logback.
         var sshLogger =
            (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("org.apache.sshd");
-        if (sshLogger != null) sshLogger.setLevel(ch.qos.logback.classic.Level.WARN);//.TRACE);//ERROR); TODO
+// TODO remove        if (sshLogger != null) sshLogger.setLevel(ch.qos.logback.classic.Level.WARN);//.TRACE);//ERROR);
+        if (sshLogger != null) sshLogger.setLevel(Level.ERROR);
     }
 
     /* ********************************************************************** */
@@ -357,22 +353,7 @@ public class SSHConnection
         // Create a new client.
         if (_client != null) stop();
         _client = SshClient.setUpDefaultClient();
-        _client.setSignatureFactories(Arrays.asList(BuiltinSignatures.rsa,
-                BuiltinSignatures.nistp256,
-                BuiltinSignatures.nistp384,
-                BuiltinSignatures.nistp521,
-                BuiltinSignatures.ed25519,
-                BuiltinSignatures.ed25519_cert,
-                BuiltinSignatures.sk_ssh_ed25519));
         _client.start();
-        var a = _client.getKeyIdentityProvider();
-        var b = _client.getHostBasedAuthenticationReporter();
-        var c = _client.getPublicKeyAuthenticationReporter();
-        var d = _client.getCipherFactoriesNames();
-        var e1 = _client.getCipherFactories();
-        var f = _client.getProperties();
-        var g = _client.getSignatureFactoriesNames();
-        var h = _client.getSignatureFactories();
 
         // Connect the session.
         try {
@@ -381,16 +362,6 @@ public class SSHConnection
             _session = _client.connect(hostConfig)
                     .verify(_timeouts.getConnectMillis())
                     .getSession();
-
-// TODO            // TODO
-//            KeyPairResourceLoader loader = SecurityUtils.getKeyPairResourceParser();
-//            try {
-//                var fp = Path.of("/home/scblack/src_git/github/dev/tapis-shared-java/tapis-shared-lib/src/test/resources/edu/utexas/tacc/tapis/shared/ssh/apache/sshkeygen_ed25519");
-//                var keyPairs = loader.loadKeyPairs(null, fp, null);
-//                var i = 1;
-//            } catch (Exception e) {}
-//            // TODO
-
         } catch (Exception e) {
             stop();
             TapisRecoverableException rex = getRecoverable(e, ExceptionSource.CONNECT);

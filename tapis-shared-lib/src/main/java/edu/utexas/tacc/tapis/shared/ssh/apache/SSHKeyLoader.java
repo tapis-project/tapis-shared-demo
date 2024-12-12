@@ -50,7 +50,6 @@ public class SSHKeyLoader
     private final String _host;
     private final String _username;
 
-
     /* ********************************************************************** */
     /*                            Constructors                                */
     /* ********************************************************************** */
