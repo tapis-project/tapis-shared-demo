@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.utexas.tacc.tapis</groupId>
   <artifactId>tapis-shared-lib</artifactId>
-  <version>2.0.192</version>
+  <version>1.8.0-HOTFIX</version>
   <name>Tapis Shared Library</name>
   <description>Libraries used by multiple Tapis modules</description>
   <url>https://github.com/tapis-project/tapis-shared-java/tapis-shared-lib</url>

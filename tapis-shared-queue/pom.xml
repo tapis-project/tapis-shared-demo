@@ -4,7 +4,7 @@
   <parent>
     <groupId>edu.utexas.tacc.tapis</groupId>
     <artifactId>tapis-shared-java</artifactId>
-    <version>2.0.193-SNAPSHOT</version>
+    <version>1.8.0-HOTFIX</version>
   </parent>
   
   <artifactId>tapis-shared-queue</artifactId>

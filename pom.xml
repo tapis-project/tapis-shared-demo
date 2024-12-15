@@ -8,7 +8,7 @@
     <parent>
         <groupId>edu.utexas.tacc.tapis</groupId>
         <artifactId>tapis-bom</artifactId>
-        <version>[2.0.37,3.0)</version>
+        <version>1.8.0-HOTFIX</version>
         <!-- Set empty relative path to avoid maven warning and -->
         <!--   ensure parent is found in local repository if that -->
         <!--   is the only place it exists. -->
@@ -16,7 +16,7 @@
     </parent>
 
     <artifactId>tapis-shared-java</artifactId>
-    <version>2.0.193-SNAPSHOT</version>
+    <version>1.8.0-HOTFIX</version>
 
     <name>Tapis shared</name>
     <description>TAPIS shared Java code</description>
