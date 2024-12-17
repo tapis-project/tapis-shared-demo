@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.security.KeyPair;
 import java.util.Base64;
 import java.util.concurrent.ThreadLocalRandom;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
@@ -14,6 +13,7 @@ import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.SshException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.Level;
 
 import edu.utexas.tacc.tapis.shared.exceptions.TapisException;
 import edu.utexas.tacc.tapis.shared.exceptions.recoverable.TapisRecoverableException;
@@ -70,7 +70,7 @@ public class SSHConnection
         // Configure apache ssh logging by interfacing directly with logback.
         var sshLogger =
            (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("org.apache.sshd");
-        if (sshLogger != null) sshLogger.setLevel(ch.qos.logback.classic.Level.ERROR);
+        if (sshLogger != null) sshLogger.setLevel(Level.ERROR);
     }
     
     /* ********************************************************************** */
