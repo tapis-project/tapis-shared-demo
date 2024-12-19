@@ -18,6 +18,7 @@ import edu.utexas.tacc.tapis.tokens.client.TokensClient;
 import edu.utexas.tacc.tapis.tokens.client.gen.model.InlineObject1.AccountTypeEnum;
 import edu.utexas.tacc.tapis.tokens.client.model.CreateTokenParms;
 import edu.utexas.tacc.tapis.tokens.client.model.RefreshTokenParms;
+import edu.utexas.tacc.tapis.tokens.client.model.TapisRefreshToken;
 import edu.utexas.tacc.tapis.tokens.client.model.TokenResponsePackage;
 
 /** This class fetches a single service token and will refresh that token indefinitely.
@@ -177,6 +178,11 @@ public class ServiceJWT
     /* **************************************************************************** */
     /*                               Private Accessors                              */
     /* **************************************************************************** */
+    // Generated access token object.  This should never be null.
+    private TapisRefreshToken getRefreshJWTObject(String targetSite) {
+        return _tokPkgMap.get(targetSite).getRefreshToken();
+    }    
+        
     // Generated access token information.  There's no chance
     // of the tokens package being null nor its access token.
     private String getRefreshJWT(String targetSite) {
@@ -339,12 +345,31 @@ public class ServiceJWT
     /* ---------------------------------------------------------------------------- */
     /* refreshServiceJWT:                                                           */
     /* ---------------------------------------------------------------------------- */
+    /** All exceptions thrown from this method are caught by uncaughtException() method
+     * and logged there.
+     * 
+     * @param targetSite the site where the tokens can be used
+     * @return the refreshed tokens
+     * @throws TapisException
+     * @throws TapisClientException
+     */
     private TokenResponsePackage refreshServiceJWT(String targetSite) 
      throws TapisException, TapisClientException
     {
+    	// See if we still have a valid, unexpired refresh token.
+    	var refreshJWT = getRefreshJWTObject(targetSite);
+    	if (refreshJWT.getExpiresIn() < 0) {
+    		// Create the expired refresh token message for later logging.
+    		String msg = MsgUtils.getMsg("TAPIS_TOKEN_REFRESH_JWT_EXPIRED", 
+    				                     _serviceName, targetSite,
+    			                         refreshJWT.getExpiresAt(), Instant.now());
+    		_log.error(msg);
+    		throw new TapisException(msg);
+    	}
+    	
         // Create and populate the client parameter object.
         var refreshParms = new RefreshTokenParms();
-        refreshParms.setRefreshToken(getRefreshJWT(targetSite));
+        refreshParms.setRefreshToken(refreshJWT.getRefreshToken());
         
         // Get the client.
         var client = new TokensClient(_tokensBaseUrl);
@@ -497,9 +522,11 @@ public class ServiceJWT
     /* ---------------------------------------------------------------------- */
     /* uncaughtException:                                                     */
     /* ---------------------------------------------------------------------- */
-    /** Note the unexpected death of our refresh thread.  We just let it die
-     * and wait for the token to eventually expire, which will cause our service
-     * to become unhealthy. 
+    /** Note the unexpected death of our refresh thread.  If we are configured 
+     * to abort the program when it becomes impossible to refresh our service
+     * token, we exit the JVM from here.  Otherwise, we just let the refresh thread
+     * die and wait for the service token to eventually expire, which will cause 
+     * our service to become unhealthy. 
      */
     @Override
     public void uncaughtException(Thread t, Throwable e) 
@@ -508,6 +535,12 @@ public class ServiceJWT
         _log.error(MsgUtils.getMsg("TAPIS_THREAD_UNCAUGHT_EXCEPTION", 
                                    t.getName(), e.toString()));
         e.printStackTrace(); // stderr for emphasis
+        
+		// Are we configured to exit the program when the refresh thread errors out?
+		if (ServiceContext.isExitOnJWTRefreshError()) {
+	        _log.error(MsgUtils.getMsg("TAPIS_ABORT_JWT_REFRESH_ERROR", _serviceName));
+	        System.exit(1);
+		}
     }
     
     /* **************************************************************************** */
