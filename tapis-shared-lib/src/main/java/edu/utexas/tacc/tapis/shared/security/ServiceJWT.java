@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import edu.utexas.tacc.tapis.client.shared.exceptions.TapisClientException;
 import edu.utexas.tacc.tapis.shared.exceptions.TapisException;
+import edu.utexas.tacc.tapis.shared.exceptions.runtime.TapisJWTExpirationException;
 import edu.utexas.tacc.tapis.shared.i18n.MsgUtils;
 import edu.utexas.tacc.tapis.shared.utils.TapisGsonUtils;
 import edu.utexas.tacc.tapis.tokens.client.TokensClient;
@@ -345,16 +346,18 @@ public class ServiceJWT
     /* ---------------------------------------------------------------------------- */
     /* refreshServiceJWT:                                                           */
     /* ---------------------------------------------------------------------------- */
-    /** All exceptions thrown from this method are caught by uncaughtException() method
-     * and logged there.
+    /** The TapisJWTExpirationException runtime exception is only thrown when the
+     * refresh token has expired before renewing the service's JWT.  In this case, 
+     * there's no point in this thread continuing since there's no way to renew the
+     * server JWT, so the runtime exception always gets processed by uncaughtException().
      * 
      * @param targetSite the site where the tokens can be used
      * @return the refreshed tokens
-     * @throws TapisException
-     * @throws TapisClientException
+     * @throws TapisException, TapisClientException recoverable errors
+     * @throws TapisJWTExpirationException unrecoverable error
      */
     private TokenResponsePackage refreshServiceJWT(String targetSite) 
-     throws TapisException, TapisClientException
+     throws TapisException, TapisClientException, TapisJWTExpirationException
     {
     	// See if we still have a valid, unexpired refresh token.
     	var refreshJWT = getRefreshJWTObject(targetSite);
@@ -364,7 +367,7 @@ public class ServiceJWT
     				                     _serviceName, targetSite,
     			                         refreshJWT.getExpiresAt(), Instant.now());
     		_log.error(msg);
-    		throw new TapisException(msg);
+    		throw new TapisJWTExpirationException(msg);
     	}
     	
         // Create and populate the client parameter object.
@@ -604,8 +607,9 @@ public class ServiceJWT
          * @param sleepMillis milliseconds to wait before trying to refresh
          * @return true if all new access tokens were acquired before the current
          *              access tokens expired, false otherwise
+         * @throws TapisJWTExpirationException when the refresh and access tokens have expired
          */
-        private boolean refreshToken(long sleepMillis)
+        private boolean refreshToken(long sleepMillis) throws TapisJWTExpirationException
         {
             // Retry until the access token expires.
             while (true) {
@@ -656,6 +660,11 @@ public class ServiceJWT
                 		localTokPkgMap.put(siteId, refreshServiceJWT(siteId));
                 		_refreshJwtCount++;
                 	}
+                	// Rethrowing this exception will cause the it to escape the
+                	// refresh thread's run method.  The thread's uncaught exception
+                	// method will then either end the thread or shutdown the JVM 
+                	// depending on the exitOnJWTRefreshError runtime setting.
+                	catch (TapisJWTExpirationException e) {throw e;}
                     catch (Exception e) {
                    		// Log the exception.
                    		String msg = MsgUtils.getMsg("TAPIS_TOKEN_REFRESH_ERROR",
