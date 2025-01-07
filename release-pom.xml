@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.utexas.tacc.tapis</groupId>
   <artifactId>tapis-shared-java</artifactId>
-  <version>2.0.195</version>
+  <version>2.0.196</version>
   <packaging>pom</packaging>
   <name>Tapis shared</name>
   <description>TAPIS shared Java code</description>
@@ -209,12 +209,12 @@
     <jetbrains.annotations.version>20.1.0</jetbrains.annotations.version>
     <commons-codec.version>1.16.0</commons-codec.version>
     <hk2.version>2.6.1</hk2.version>
-    <tapis-client-java.version>[2.0.139,3.0)</tapis-client-java.version>
+    <tapis-client-java.version>[2.0.140,3.0)</tapis-client-java.version>
     <javax.xml.bind.jaxb-core.version>2.3.0.1</javax.xml.bind.jaxb-core.version>
     <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
     <apache-sshd.version>2.14.0</apache-sshd.version>
     <javax.websocket-api.version>1.1</javax.websocket-api.version>
-    <build.timestamp>2024-12-17T18:47:24Z</build.timestamp>
+    <build.timestamp>2025-01-07T20:19:30Z</build.timestamp>
     <statefulj.version>3.0</statefulj.version>
     <java-source.version>1.21</java-source.version>
     <swagger-maven-plugin.version>2.1.13</swagger-maven-plugin.version>
@@ -387,7 +387,7 @@
       </testResource>
     </testResources>
     <directory>target</directory>
-    <finalName>tapis-shared-java-2.0.195</finalName>
+    <finalName>tapis-shared-java-2.0.196</finalName>
     <plugins>
       <plugin>
         <groupId>com.amashchenko.maven.plugin</groupId>
