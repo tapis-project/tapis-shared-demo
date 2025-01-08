@@ -29,11 +29,6 @@ public class ServiceContext
     /* ********************************************************************** */
 	/*                                Fields                                  */
 	/* ********************************************************************** */
-	// Runtime parameter determines whether the program exits if token refreshing
-	// is no longer possible, i.e., the refresh token has expired, for if the 
-	// refresh thread throws an uncaught exception for any reason.
-	private static boolean _exitOnJWTRefreshError = false;
-	
 	// Set upon serviceJWT initialization.
 	private String     _siteId;
 	private ServiceJWT _serviceJWT;
@@ -214,10 +209,6 @@ public class ServiceContext
 	/* ---------------------------------------------------------------------- */
 	public String getSiteId() {return _siteId;}
 	public ServiceJWT getServiceJWT() {return _serviceJWT;}
-	public static boolean isExitOnJWTRefreshError() {return _exitOnJWTRefreshError;}
-	public static void setExitOnJWTRefreshError(boolean exit) {
-		ServiceContext._exitOnJWTRefreshError = exit;
-	}
 	
 	/* ********************************************************************** */
 	/*                             Private Methods                            */

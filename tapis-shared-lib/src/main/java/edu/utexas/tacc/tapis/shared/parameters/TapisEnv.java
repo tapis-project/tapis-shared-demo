@@ -109,10 +109,6 @@ public class TapisEnv
 	  // by an orchestrator like Kubernetes.
 	  TAPIS_LOCAL_NODE_NAME("tapis.local.node.name"),
 	  
-	  // Shutdown the JVM if the service's access and refresh tokens have expired or 
-	  // if any other fatal refresh thread exception occurs. This is false by default.
-	  TAPIS_EXIT_ON_JWT_REFRESH_ERROR("tapis.exit.on.jwt.refresh.error"),
-	  
 	  // ------------------- SQL Database Parameters -------------------
 	  // MySQL parameters.
 	  TAPIS_DB_CONNECTION_POOL_SIZE("tapis.db.connection.pool.size"),
