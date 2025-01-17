@@ -171,14 +171,19 @@ abstract class TapisAbstractConnection
         
         // Connect.
         SSHConnection conn = null;
+        // Three types of Tapis credential authn methods are supported: PASSWORD, PKI_KEYS, TMS_KEYS
         try {
             if (system.getDefaultAuthnMethod() == AuthnEnum.PASSWORD) 
                 conn = new SSHConnection(system.getHost(), system.getPort(), 
                                          system.getEffectiveUserId(), cred.getPassword());
-            else 
+            else if (system.getDefaultAuthnMethod() == AuthnEnum.PKI_KEYS)
                 conn = new SSHConnection(system.getHost(), system.getPort(), 
                                          system.getEffectiveUserId(), 
                                          cred.getPublicKey(), cred.getPrivateKey());
+            else
+                conn = new SSHConnection(system.getHost(), system.getPort(),
+                      system.getEffectiveUserId(),
+                      cred.getTmsPublicKey(), cred.getTmsPrivateKey());
         } catch (TapisRecoverableException e) {
             // Handle recoverable exceptions, let non-recoverable ones through.
             // We add the systemId to all recoverable exceptions.
